@@ -1,0 +1,36 @@
+---
+title: "Climate Graphs"
+author: "Brad Anderson"
+date: "February 3, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+#Creating a climate graph for Santa Barbara
+
+library(tidyverse)
+library(ggplot2)
+
+climate <- read.csv("~/github/westgate/raw_data/CA-HUC8-18060013-HST.csv")
+
+climate <-   select(climate,-c(exc))
+
+clim_annual <- climate %>%
+    group_by(calyear) %>% 
+    summarise_each(funs(mean))
+
+```
+
+```{r}
+
+ggplot(clim_annual, aes(calyear, cwd))+
+  geom_area()+
+  geom_smooth(method='lm')
+
+```
+
